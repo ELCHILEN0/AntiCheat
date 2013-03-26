@@ -287,24 +287,25 @@ public class Backend {
     public CheckResult checkXZSpeed(Player player, double x, double z) {
         if (!isSpeedExempt(player) && player.getVehicle() == null) {
             String reason = "";
-            double max = magic.XZ_SPEED_MAX;
+            final float walkDifference = (player.getWalkSpeed() - 0.2);
+            double max = magic.XZ_SPEED_MAX + speedDiff;
             if (player.getLocation().getBlock().getType() == Material.SOUL_SAND) {
                 if (player.isSprinting()) {
                     reason = "on soulsand while sprinting ";
-                    max = magic.XZ_SPEED_MAX_SOULSAND_SPRINT;
+                    max = magic.XZ_SPEED_MAX_SOULSAND_SPRINT + walkDifference;
                 } else {
                     reason = "on soulsand ";
-                    max = magic.XZ_SPEED_MAX_SOULSAND;
+                    max = magic.XZ_SPEED_MAX_SOULSAND + walkDifference;
                 }
             } else if (player.isFlying()) {
                 reason = "while flying ";
                 max = magic.XZ_SPEED_MAX_FLY;
             } else if (player.hasPotionEffect(PotionEffectType.SPEED)) {
                 reason = "with speed potion ";
-                max = magic.XZ_SPEED_MAX_POTION;
+                max = magic.XZ_SPEED_MAX_POTION + walkDifference;
             } else if (player.isSprinting()) {
                 reason = "while sprinting ";
-                max = magic.XZ_SPEED_MAX_SPRINT;
+                max = magic.XZ_SPEED_MAX_SPRINT + walkDifference;
             }
             if (x > max || z > max) {
                 int num = this.increment(player, speedViolation, magic.SPEED_MAX);
